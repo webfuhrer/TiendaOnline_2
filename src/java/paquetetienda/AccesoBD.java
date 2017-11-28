@@ -33,7 +33,9 @@ public class AccesoBD {
                 String nombre=resultados.getString("nombre");
                 float precio=resultados.getFloat("precio");
                 String url=resultados.getString("url");
-                Producto p=new Producto(nombre, url, precio);
+                int stock=resultados.getInt("stock");
+                int id=resultados.getInt("id");
+                Producto p=new Producto(nombre, url, precio, stock, id);
                 lista.add(p);
             }
         } catch (ClassNotFoundException ex) {
@@ -49,7 +51,23 @@ public class AccesoBD {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conexion=DriverManager.getConnection("jdbc:mysql://localhost:3306/tienda", "root", "");
             Statement stmt=conexion.createStatement();
-            String sql_insercion="INSERT INTO productos VALUES ('"+p.getNombre()+"', '"+p.getPrecio()+"', '"+p.getUrl()+"');";
+            String sql_insercion="INSERT INTO productos (nombre,precio, url, stock) VALUES ('"+p.getNombre()+"', '"+p.getPrecio()+"', '"+p.getUrl()+"','"+p.getStock()+"');";
+            stmt.executeUpdate(sql_insercion);
+            stmt.close();
+            conexion.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccesoBD.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AccesoBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    static void actualizarStock(String producto) {
+      try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion=DriverManager.getConnection("jdbc:mysql://localhost:3306/tienda", "root", "");
+            Statement stmt=conexion.createStatement();
+            String sql_insercion="UPDATE productos SET stock=stock-1 WHERE id='"+producto+"';";
             stmt.executeUpdate(sql_insercion);
             stmt.close();
             conexion.close();

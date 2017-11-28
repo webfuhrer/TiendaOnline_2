@@ -39,14 +39,23 @@ public class ServletAgenda extends HttpServlet {
             String nombre=request.getParameter("nombre_producto");
             String precio=request.getParameter("precio_producto");
             String imagen=request.getParameter("url_producto");
-            Producto p=new Producto(nombre, imagen, Float.parseFloat(precio));
+            Producto p=new Producto(nombre, imagen, Float.parseFloat(precio), 10);
             AccesoBD.insertarProducto(p);
         }
         if(accion.equals("listar"))
         {
-            ArrayList<Producto> lista_productos=AccesoBD.recuperarProductos();
+           ArrayList<Producto> lista_productos=AccesoBD.recuperarProductos();
            request.setAttribute("lista_productos", lista_productos);
            request.getRequestDispatcher("mostrarproductos.jsp").forward(request, response);
+        }
+        if (accion.equals("comprar"))
+        {
+            String producto=request.getParameter("producto");
+            AccesoBD.actualizarStock(producto);
+             ArrayList<Producto> lista_productos=AccesoBD.recuperarProductos();
+           request.setAttribute("lista_productos", lista_productos);
+           request.getRequestDispatcher("mostrarproductos.jsp").forward(request, response);
+            
         }
     }
 

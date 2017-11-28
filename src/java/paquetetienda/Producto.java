@@ -12,12 +12,24 @@ package paquetetienda;
 public class Producto {
     private String nombre, url;
     private float precio;
+    private int stock;
+    private int id;
 
-    public Producto(String nombre, String url, float precio) {
+    public Producto(String nombre, String url, float precio, int stock, int id) {
         this.nombre = nombre;
         this.url = url;
         this.precio = precio;
+        this.stock = stock;
+        this.id = id;
     }
+
+    public Producto(String nombre, String url, float precio, int stock) {
+        this.nombre = nombre;
+        this.url = url;
+        this.precio = precio;
+        this.stock = stock;
+    }
+    
 
     public String getNombre() {
         return nombre;
@@ -30,5 +42,14 @@ public class Producto {
     public float getPrecio() {
         return precio;
     }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public int getId() {
+        return id;
+    }
+  
     
 }
